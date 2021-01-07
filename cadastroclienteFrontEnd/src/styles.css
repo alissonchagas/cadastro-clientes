@@ -1,0 +1,10 @@
+/* You can add global styles to this file, and also import other style files */
+.generic-container {
+    width:70%;
+    margin: auto;
+    padding: 30px;
+    background-color: #EAE7E7;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 0 30px black;
+  }

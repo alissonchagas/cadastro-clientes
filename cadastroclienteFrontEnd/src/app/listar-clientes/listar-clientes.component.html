@@ -1,0 +1,53 @@
+<app-menu></app-menu>
+<div class="panel panel-default" style="margin-left: 10px; margin-right: 10px;">
+    <div class="panel-heading" style="text-align: center;"><h1>Lista de Clientes</h1></div>
+    <div class="row">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th class="text-center">#</th>
+                        <th class="text-center">Nome</th>
+                        <th class="text-center">CPF</th>
+                        <th class="text-center">Endereços</th>
+                        <th class="text-center">Telefones</th>
+                        <th class="text-center">Emails</th>
+                        <th class="text-center">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let c of clientes">
+                        <td class="text-center" style="width: 2%" >{{c.id}}</td>
+                        <td class="text-center">{{c.nome}}</td>
+                        <td class="text-center">{{c.cpf}}</td>
+                        <td class="text-center">
+                            <ul>
+                                <li *ngFor="let e of c.enderecos">
+                                    {{e.logradouro}} - {{e.bairro}} - {{e.cidade}} - {{e.uf}} - {{e.cep}}
+                                </li>
+                            </ul>
+                        </td>
+                        <td class="text-center">
+                            <ul>
+                                <li *ngFor="let t of c.telefones">
+                                    {{t.numero}} - {{t.tipo}} 
+                                </li>
+                            </ul>
+                        </td>
+                        <td class="text-center">
+                            <ul>
+                                <li *ngFor="let e of c.emails">
+                                    {{e.nome}}
+                                </li>
+                            </ul>
+                        </td>
+                        <td class="text-center" style="width: 10%" >
+                            <a class="btn btn-primary" role="button" title="Editar Cliente"  (click)="editar(c.id)">#</a>
+                            <a class="btn btn-danger" role="button" title="Excluir Cliente"  (click)="excluirCliente(c.id)">X</a>                        
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,248 @@
+<app-menu></app-menu>
+<div  class="container-fluid">
+    <div class="generic-container">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="text-align: center;">
+                <div *ngIf="idCliente==0"><h1>Novo Cliente</h1></div>
+                <div *ngIf="idCliente>0"><h1>Atualizar Cliente</h1></div>
+            </div>
+            <div class="formcontainer">
+                <form class="form-horizontal" [formGroup]="clienteForm" #cliente_ (ngSubmit)="salvarCliente(cliente_)" >
+                    <div class="row">
+                        <div class="form-group col-md-12" >
+                            <label>Nome</label>
+                            <input type="text" class="form-control"  formControlName="cliente_nome"
+                            data-toggle="tooltip" 
+                            data-placement="right" title="Adicione um Nome" >
+                            <div class="alert alert-danger" *ngIf = "(ClienteNome.touched) && (ClienteNome.invalid)" 
+                                style="margin-top: 5px;">
+                                <span *ngIf = "ClienteNome.errors.required">Nome é obrigatório</span>
+                                <span *ngIf = "ClienteNome.errors.minlength"> Mínimo de 3 caracteres </span>
+                                <span *ngIf = "ClienteNome.errors.maxlength">  Máximo de 100 caracteres </span>                 
+                            </div> 
+                        </div> 
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label>CPF</label>
+                            <input type="text" class="form-control"  formControlName="cliente_cpf"
+                            data-toggle="tooltip" mask="000.000.000-00"
+                            data-placement="right" title="Adicione um CPF" >
+                            <div class="alert alert-danger" *ngIf = "(ClienteCpf.touched) && (ClienteCpf.invalid)" 
+                                style="margin-top: 5px;">
+                                <span *ngIf="ClienteCpf.errors.required">CPF é obrigatório</span>                  
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="panel panel-default col-md-12">
+                            <div class="panel-heading"  style="text-align: center;">
+                                <h3>Endereços</h3>
+                                <div style="float: right;" *ngIf="!exibirCamposEndereco">
+                                    <a class="btn btn-success" role="button" title="Adicionar Novo Endereco" (click)="exibeCamposEndereco()">Novo Endereço</a>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-group" *ngIf="exibirCamposEndereco">
+                                    <div class="form-group col-md-4">
+                                        <label>CEP</label>
+                                        <input type="text" class="form-control"  formControlName="endereco_cep"
+                                        data-toggle="tooltip" (blur)="consultaCEP($event)" mask="00000-000"
+                                        data-placement="right" title="Adicione um CEP" >
+                                        <div class="alert alert-danger" *ngIf = "(EnderecoCep.touched) && (EnderecoCep.invalid)" 
+                                            style="margin-top: 5px;">
+                                            <span *ngIf="EnderecoCep.errors.required">CEP é obrigatório</span>                  
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label>Logradouro</label>
+                                        <input type="text" class="form-control"  formControlName="endereco_logradouro"
+                                        data-toggle="tooltip" 
+                                        data-placement="right" title="Adicione um Logradouro" >
+                                        <div class="alert alert-danger" *ngIf = "(EnderecoLogradouro.touched) && (EnderecoLogradouro.invalid)" 
+                                            style="margin-top: 5px;">
+                                            <span *ngIf="EnderecoLogradouro.errors.required">Logradouro é obrigatório</span>                  
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label>Bairro</label>
+                                        <input type="text" class="form-control"  formControlName="endereco_bairro"
+                                        data-toggle="tooltip" 
+                                        data-placement="right" title="Adicione um Bairro" >
+                                        <div class="alert alert-danger" *ngIf = "(EnderecoBairro.touched) && (EnderecoBairro.invalid)" 
+                                            style="margin-top: 5px;">
+                                            <span *ngIf="EnderecoBairro.errors.required">Bairro é obrigatório</span>                  
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label>Cidade</label>
+                                        <input type="text" class="form-control"  formControlName="endereco_cidade"
+                                        data-toggle="tooltip" 
+                                        data-placement="right" title="Adicione uma Cidade" >
+                                        <div class="alert alert-danger" *ngIf = "(EnderecoCidade.touched) && (EnderecoCidade.invalid)" 
+                                            style="margin-top: 5px;">
+                                            <span *ngIf="EnderecoCidade.errors.required">Cidade é obrigatória</span>                  
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label>UF</label>
+                                        <input type="text" class="form-control"  formControlName="endereco_uf"
+                                        data-toggle="tooltip" 
+                                        data-placement="right" title="Adicione uma UF" >
+                                        <div class="alert alert-danger" *ngIf = "(EnderecoUf.touched) && (EnderecoUf.invalid)" 
+                                            style="margin-top: 5px;">
+                                            <span *ngIf="EnderecoUf.errors.required">UF é obrigatória</span>                  
+                                        </div>
+                                    </div> 
+                                    <div class="form-group col-md-12">
+                                        <label>Complemento</label>
+                                        <input type="text" class="form-control"  formControlName="endereco_complemento"
+                                        data-toggle="tooltip" 
+                                        data-placement="right" title="Adicione um Complemento">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <a class="btn btn-primary" role="button" title="Salvar Endereco" (click)="adicionarEndereco()">Salvar Endereço</a>
+                                        <a class="btn btn-danger" role="button" (click)="exibeCamposEndereco();limparEndereco()">Cancelar</a>                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive" *ngIf="ClienteEnderecos.value.length>0">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">CEP</th>
+                                    <th class="text-center">Logradouro</th>
+                                    <th class="text-center">Bairro</th>
+                                    <th class="text-center">Cidade</th>
+                                    <th class="text-center">UF</th>
+                                    <th class="text-center">Complemento</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let e of ClienteEnderecos.value">
+                                    <td class="text-center">{{e.cep}}</td>
+                                    <td class="text-center">{{e.logradouro}}</td>
+                                    <td class="text-center">{{e.bairro}}</td>
+                                    <td class="text-center">{{e.cidade}}</td>
+                                    <td class="text-center">{{e.uf}}</td>
+                                    <td class="text-center">{{e.complemento}}</td>
+                                    <td class="text-center" style="width: 8%">
+                                        <a class="nav-link" class="btn btn-danger" role="button"  (click)="removeEndereco(e)">X</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="panel panel-default col-md-12">
+                            <div class="panel-heading" style="text-align: center;" >
+                                <h3>Telefones</h3>
+                                <div style="float: right;" *ngIf="!exibirCamposTelefone">
+                                    <a class="btn btn-success" role="button" title="Adicionar Novo Telefone" (click)="exibeCamposTelefone()">Novo Telefone</a>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-group" *ngIf="exibirCamposTelefone">
+                                    <div class="form-group col-md-4">
+                                        <label>Numero</label>
+                                        <input type="text" class="form-control"  formControlName="telefone_numero"
+                                        data-toggle="tooltip" mask="000000009"
+                                        data-placement="right" title="Adicione um Número" >
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label>Tipo</label>
+                                        <select class="form-control" formControlName="telefone_tipo">
+                                            <option value="{id:0,nome:''}">--Selecione--</option>
+                                            <option *ngFor="let t of tiposTelefone">{{t.nome}}</option>
+                                        </select>                      
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <a class="btn btn-primary " role="button" title="Salvar Telefone" (click)="adicionarTelefone()">Salvar Telefone</a>                       
+                                        <a class="btn btn-danger" role="button"  (click)="exibeCamposTelefone();limparTelefone()">Cancelar</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6" style="margin-left: auto;margin-right: auto;" *ngIf="ClienteTelefones.value.length>0">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Numero</th>
+                                        <th class="text-center">Tipo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let t of ClienteTelefones.value">
+                                        <td class="text-center">{{t.numero}}</td>
+                                        <td class="text-center">{{t.tipo}}</td>
+                                        <td class="text-center" style="width: 8%">
+                                            <a class="btn btn-danger" role="button"  (click)="removeTelefone(t)">X</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="panel panel-default col-md-12">
+                            <div class="panel-heading"  style="text-align: center;">
+                                <h3>Emails</h3>
+                                <div style="float: right;" *ngIf="!exibirCamposEmail">
+                                    <a class="btn btn-success " role="button" title="Adicionar Novo Email" (click)="exibeCamposEmail()">Novo Email</a>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-group"  *ngIf="exibirCamposEmail">
+                                    <div class="form-group col-md-6">
+                                        <label>Email</label>
+                                        <input type="email" class="form-control"  formControlName="email_nome"
+                                        data-toggle="tooltip"
+                                        data-placement="right" title="Adicione um Email" >
+                                        <div class="alert alert-danger" *ngIf = "(EmailNome.touched) && (EmailNome.invalid)" 
+                                            style="margin-top: 5px;">
+                                            <span *ngIf="EmailNome.errors.pattern">Formato inválido</span>                  
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <a class="btn btn-primary" role="button" title="Salvar Email" (click)="adicionarEmail()">Salvar Email</a>
+                                        <a class="btn btn-danger" role="button" (click)="exibeCamposEmail();limparEmail()">Cancelar</a>                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
+                    <div class="form-group col-md-6" style="margin-left: auto;margin-right: auto;" *ngIf="ClienteEmails.value.length>0">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Email</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let e of ClienteEmails.value">
+                                        <td class="text-center">{{e.nome}}</td>
+                                        <td class="text-center" style="width: 8%">
+                                            <a class="btn btn-danger" role="button"  (click)="removeEmail(e)">X</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <button type="submit" class="btn btn-success" >Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

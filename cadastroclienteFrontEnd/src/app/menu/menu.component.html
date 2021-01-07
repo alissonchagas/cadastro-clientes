@@ -1,0 +1,17 @@
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark"> 
+        <ul class="navbar-nav navbar-collapse justify-content-end">
+            <li>
+                <a *ngIf="isLoggedIn" href="/listar-clientes" class="nav-link" class="btn btn-primary active" role="button" >Listar Clientes</a>
+            </li>
+            &nbsp;
+            <li>
+                <a *ngIf="isLoggedIn" href="/adicionar-clientes" class="nav-link" class="btn btn-primary active" role="button" >Adicionar Clientes</a>
+            </li>
+            &nbsp;
+            <li>
+                <a *ngIf="isLoggedIn" href="/logout" class="nav-link" class="btn btn-primary active" role="button" (click)=handleLogout()>Logout</a>
+            </li>
+        </ul>
+    </nav>
+</header>
