@@ -4,6 +4,7 @@ import { ListarClientesComponent } from './listar-clientes/listar-clientes.compo
 import { AdicionarClientesComponent } from './adicionar-clientes/adicionar-clientes.component';
 import { LoginComponent } from './login/login.component';
 
+
 const routes: Routes = [
   { path: '', component: LoginComponent},
   { path: 'login', component: LoginComponent},
