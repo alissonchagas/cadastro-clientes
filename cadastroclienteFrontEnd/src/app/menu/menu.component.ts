@@ -10,15 +10,16 @@ import { AuthenticationService } from '../login/auth.service';
 export class MenuComponent implements OnInit {
 
   isLoggedIn = false;
+  temPermissao = false;
 
   constructor(private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
     this.isLoggedIn = this.authenticationService.isUserLoggedIn();
+    this.temPermissao = this.authenticationService.getLoggedInUserRole()=="ADMIN";
   }
 
   handleLogout() {
     this.authenticationService.logout();
   }
-
 }
