@@ -7,6 +7,7 @@ import { Telefone } from '../models/telefone';
 import { Email } from '../models/email';
 import { NgxViacepService, Endereco, ErroCep, ErrorValues } from '@brunoc/ngx-viacep';
 import { ActivatedRoute ,Router  } from '@angular/router';
+import { AuthenticationService } from '../login/auth.service';
 
 @Component({
   selector: 'app-adicionar-clientes',
@@ -21,8 +22,7 @@ export class AdicionarClientesComponent implements OnInit {
   exibirCamposEndereco = false;
   exibirCamposTelefone = false;
   exibirCamposEmail = false;
-  regexPattern = "[a-zA-Z0-9 ]+";
-  
+   
   tiposTelefone = [{id:1,nome:'CELULAR'},{id:2,nome:'COMERCIAL'},{id:3,nome:'RESIDENCIAL'}];
   clienteForm:any; 
   
@@ -30,12 +30,17 @@ export class AdicionarClientesComponent implements OnInit {
     private appRef: ApplicationRef, 
     private viacep: NgxViacepService,
     private router: Router,
-    private activatedRoute: ActivatedRoute ) { 
+    private activatedRoute: ActivatedRoute,
+    private authenticationService: AuthenticationService ) { 
       
     }
   
   ngOnInit(): void { 
     this.idCliente = this.activatedRoute.snapshot.params['id'];  
+    var temPermissao = this.authenticationService.isLoggedInUserTemPermissao();
+    if(!temPermissao){
+      this.router.navigate(['/listar-clientes']);
+    }
     this.initializeForm();
     if(this.idCliente>0){
       this.clienteService.recuperar(this.idCliente).toPromise().then(r => {

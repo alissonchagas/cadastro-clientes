@@ -16,7 +16,7 @@ export class MenuComponent implements OnInit {
 
   ngOnInit() {
     this.isLoggedIn = this.authenticationService.isUserLoggedIn();
-    this.temPermissao = this.authenticationService.getLoggedInUserRole()=="ADMIN";
+    this.temPermissao = this.authenticationService.isLoggedInUserTemPermissao();
   }
 
   handleLogout() {

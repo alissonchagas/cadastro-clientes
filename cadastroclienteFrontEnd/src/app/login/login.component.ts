@@ -11,7 +11,7 @@ export class LoginComponent implements OnInit {
 
   username: string;
   password : string;
-  errorMessage = 'Credenciais Inválidas';
+  errorMessage = 'Erro na autenticação';
   successMessage: string;
   invalidLogin = false;
   loginSuccess = false;

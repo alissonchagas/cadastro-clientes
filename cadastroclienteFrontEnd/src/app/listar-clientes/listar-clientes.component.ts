@@ -1,6 +1,7 @@
 import { Component, OnInit, ApplicationRef } from '@angular/core';
 import { CadastroClienteService } from '../cadastro-cliente.service';
 import { Router  } from '@angular/router';
+import { AuthenticationService } from '../login/auth.service';
 
 @Component({
   selector: 'app-listar-clientes',
@@ -9,9 +10,10 @@ import { Router  } from '@angular/router';
 })
 export class ListarClientesComponent implements OnInit {
 
-  clientes: Array<any>; 
+  clientes: Array<any>;
+  temPermissao = false; 
 
-  constructor(private clienteService: CadastroClienteService, private appRef: ApplicationRef,private router: Router) { }
+  constructor(private clienteService: CadastroClienteService,private router: Router,private authenticationService: AuthenticationService) { }
 
   ngOnInit(): void {
     this.listar();
@@ -20,6 +22,7 @@ export class ListarClientesComponent implements OnInit {
   listar(){
     this.clientes =null;
     this.clienteService.listar().subscribe(dados => this.clientes = dados);
+    this.temPermissao = this.authenticationService.isLoggedInUserTemPermissao();
   }
 
   editar(id){

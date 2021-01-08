@@ -17,13 +17,7 @@ export class HttpInterceptorService implements HttpInterceptor{
                   'Authorization': `Basic ${window.btoa(this.authenticationService.getLoggedInUserName() + ":" + this.authenticationService.getLoggedInUserPass())}`
               })
           });
-          return next.handle(authReq).pipe(catchError(err => {
-                    if ([401, 403].indexOf(err.status) !== -1) {
-                        this.authenticationService.logout();
-                    }
-                    const error = err.error.message || err.statusText;
-                    return throwError(error);
-                }));
+          return next.handle(authReq);
       } else {
           return next.handle(req);
       }

@@ -22,12 +22,11 @@ export class AuthenticationService {
   }
 
   authenticationService(username: String, password: String) {
-    return this.http.get<any>(`http://localhost:8080/validaAutenticacao`,
+    return this.http.get<any>(`http://localhost:8080/validaAutenticacao/${username}`,
       { headers: { authorization: this.createBasicAuthToken(username, password) } }).pipe(map((user) => {
         this.username = username;
         this.password = password;
-        this.role = user.permissoes;
-        this.registerSuccessfulLogin(username, password, user.permissoes);
+        this.registerSuccessfulLogin(username, password,user.permissoes);
       }));
   }
 
@@ -35,10 +34,10 @@ export class AuthenticationService {
     return 'Basic ' + window.btoa(username + ":" + password)
   }
 
-  registerSuccessfulLogin(username, password,role) {
+  registerSuccessfulLogin(username, password, roles) {
     sessionStorage.setItem(this.USER_NAME_SESSION_ATTRIBUTE_NAME, username);
     sessionStorage.setItem(this.PASS_NAME_SESSION_ATTRIBUTE_NAME, password);
-    sessionStorage.setItem(this.ROLE_NAME_SESSION_ATTRIBUTE_NAME, password);
+    sessionStorage.setItem(this.ROLE_NAME_SESSION_ATTRIBUTE_NAME, roles);
   }
 
   logout() {
@@ -69,9 +68,11 @@ export class AuthenticationService {
     return pass
   }
 
-  getLoggedInUserRole() {
-    let role = sessionStorage.getItem(this.ROLE_NAME_SESSION_ATTRIBUTE_NAME)
-    if (role === null) return ''
-    return role
+  isLoggedInUserTemPermissao() {
+    let role = sessionStorage.getItem(this.ROLE_NAME_SESSION_ATTRIBUTE_NAME).match("ADMIN");
+    if (role === null)
+      return false;
+    else 
+      return role.includes("ADMIN");
   }
 }

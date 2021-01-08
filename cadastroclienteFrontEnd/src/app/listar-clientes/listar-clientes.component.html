@@ -42,8 +42,8 @@
                             </ul>
                         </td>
                         <td class="text-center" style="width: 10%" >
-                            <a class="btn btn-primary" role="button" title="Editar Cliente"  (click)="editar(c.id)">#</a>
-                            <a class="btn btn-danger" role="button" title="Excluir Cliente"  (click)="excluirCliente(c.id)">X</a>                        
+                            <a class="btn btn-primary" role="button" title="Editar Cliente"  (click)="editar(c.id)" *ngIf="temPermissao">#</a>
+                            <a class="btn btn-danger" role="button" title="Excluir Cliente"  (click)="excluirCliente(c.id)" *ngIf="temPermissao">X</a>                        
                         </td>
                     </tr>
                 </tbody>
