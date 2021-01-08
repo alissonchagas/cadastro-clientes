@@ -6,34 +6,25 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Transient;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Telefone {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long codigo;
 	
 	private String numero;
 	
 	@Enumerated(EnumType.STRING)
 	private TipoTelefone tipo;
-	
-	private Long idCliente;	
-	
-	@JsonIgnore
-	@Transient
-	private Cliente cliente;
 
-	public Long getId() {
-		return id;
+	public Long getCodigo() {
+		return codigo;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setCodigo(Long codigo) {
+		this.codigo = codigo;
 	}
 
 	public String getNumero() {
@@ -44,7 +35,7 @@ public class Telefone {
 		this.numero = numero;
 	}
 
-	public TipoTelefone getTipo() { 
+	public TipoTelefone getTipo() {
 		return tipo;
 	}
 
@@ -52,23 +43,28 @@ public class Telefone {
 		this.tipo = tipo;
 	}
 
-	public Long getIdCliente() {
-		return idCliente;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+		return result;
 	}
 
-	public void setIdCliente(Long idCliente) {
-		this.idCliente = idCliente;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Telefone other = (Telefone) obj;
+		if (codigo == null) {
+			if (other.codigo != null)
+				return false;
+		} else if (!codigo.equals(other.codigo))
+			return false;
+		return true;
 	}
-
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-		if(cliente!=null && cliente.getId()!=null) {
-			this.idCliente = cliente.getId();
-		}
-	}
-	
 }
