@@ -6,7 +6,7 @@
             </li>
             &nbsp;
             <li>
-                <a *ngIf="isLoggedIn" href="/adicionar-clientes" class="nav-link" class="btn btn-primary active" role="button" >Adicionar Clientes</a>
+                <a *ngIf="isLoggedIn && temPermissao" href="/adicionar-clientes" class="nav-link" class="btn btn-primary active" role="button" >Adicionar Clientes</a>
             </li>
             &nbsp;
             <li>
